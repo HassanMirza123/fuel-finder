@@ -37,6 +37,7 @@ def get_token():
 
     if resp.status_code != 200:
         print(f"Token request failed: {resp.status_code}")
+        print(f"Response headers: {dict(resp.headers)}")
         print(f"Response body: {resp.text[:1000]}")
 
     resp.raise_for_status()
