@@ -27,9 +27,18 @@ def get_token():
     print("Requesting new token...")
     resp = requests.post(
         TOKEN_URL,
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "FuelWatchUK/1.0 (portfolio data pipeline)",
+        },
         json={"client_id": CLIENT_ID, "client_secret": CLIENT_SECRET}
     )
+
+    if resp.status_code != 200:
+        print(f"Token request failed: {resp.status_code}")
+        print(f"Response body: {resp.text[:1000]}")
+
     resp.raise_for_status()
     data = resp.json()["data"]
 
