@@ -4,3 +4,5 @@ __pycache__/
 *.csv
 .token_cache.json
 *.pyc
+pipeline.log
+context_bundle.md
