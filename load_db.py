@@ -94,7 +94,21 @@ def load(df):
                     :temporary_closure, :permanent_closure, :permanent_closure_date,
                     :is_motorway, :is_supermarket,
                     :address, :postcode, :city, :county, :country, :latitude, :longitude)
-                ON CONFLICT (node_id) DO NOTHING
+                ON CONFLICT (node_id) DO UPDATE SET
+                    trading_name = EXCLUDED.trading_name,
+                    brand_name = EXCLUDED.brand_name,
+                    temporary_closure = EXCLUDED.temporary_closure,
+                    permanent_closure = EXCLUDED.permanent_closure,
+                    permanent_closure_date = EXCLUDED.permanent_closure_date,
+                    is_motorway = EXCLUDED.is_motorway,
+                    is_supermarket = EXCLUDED.is_supermarket,
+                    address = EXCLUDED.address,
+                    postcode = EXCLUDED.postcode,
+                    city = EXCLUDED.city,
+                    county = EXCLUDED.county,
+                    country = EXCLUDED.country,
+                    latitude = EXCLUDED.latitude,
+                    longitude = EXCLUDED.longitude
             """), row.to_dict())
         conn.commit()
     print(f"Forecourts: {len(forecourts_df)} rows upserted")

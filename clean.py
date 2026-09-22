@@ -132,9 +132,13 @@ def clean_api_records(merged_records):
 
     # Parse permanent closure date
     if "permanent_closure_date" in df.columns:
-        df["permanent_closure_date"] = pd.to_datetime(
+        parsed_dates = pd.to_datetime(
             df["permanent_closure_date"], errors="coerce"
-        ).dt.date
+        )
+
+        df["permanent_closure_date"] = parsed_dates.apply(
+            lambda value: value.date() if pd.notna(value) else None
+        )
 
     # Parse timestamps — API gives clean ISO 8601 so no regex needed
     ts_cols = [
