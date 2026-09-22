@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS forecourts (
     node_id         TEXT PRIMARY KEY,
     trading_name    TEXT,
     brand_name      TEXT,
+    temporary_closure        BOOLEAN,
+    permanent_closure        BOOLEAN,
+    permanent_closure_date   DATE,
     is_motorway     BOOLEAN,
     is_supermarket  BOOLEAN,
     address         TEXT,
@@ -49,6 +52,7 @@ CREATE TABLE IF NOT EXISTS price_snapshots (
 
 FORECOURT_COLS = [
     "node_id", "trading_name", "brand_name",
+    "temporary_closure", "permanent_closure", "permanent_closure_date",
     "is_motorway", "is_supermarket",
     "address", "postcode", "city", "county", "country",
     "latitude", "longitude"
@@ -81,11 +85,15 @@ def load(df):
         for _, row in forecourts_df.iterrows():
             conn.execute(text("""
                 INSERT INTO forecourts
-                    (node_id, trading_name, brand_name, is_motorway, is_supermarket,
-                     address, postcode, city, county, country, latitude, longitude)
+                    (node_id, trading_name, brand_name,
+                    temporary_closure, permanent_closure, permanent_closure_date,
+                    is_motorway, is_supermarket,
+                    address, postcode, city, county, country, latitude, longitude)
                 VALUES
-                    (:node_id, :trading_name, :brand_name, :is_motorway, :is_supermarket,
-                     :address, :postcode, :city, :county, :country, :latitude, :longitude)
+                    (:node_id, :trading_name, :brand_name,
+                    :temporary_closure, :permanent_closure, :permanent_closure_date,
+                    :is_motorway, :is_supermarket,
+                    :address, :postcode, :city, :county, :country, :latitude, :longitude)
                 ON CONFLICT (node_id) DO NOTHING
             """), row.to_dict())
         conn.commit()

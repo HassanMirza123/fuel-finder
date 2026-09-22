@@ -130,6 +130,12 @@ def clean_api_records(merged_records):
     # Replace empty strings with None
     df = df.replace({"": None})
 
+    # Parse permanent closure date
+    if "permanent_closure_date" in df.columns:
+        df["permanent_closure_date"] = pd.to_datetime(
+            df["permanent_closure_date"], errors="coerce"
+        ).dt.date
+
     # Parse timestamps — API gives clean ISO 8601 so no regex needed
     ts_cols = [
         "submitted_e5", "effective_e5",
