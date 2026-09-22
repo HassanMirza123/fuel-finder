@@ -146,6 +146,8 @@ def clean_api_records(merged_records):
         "submitted_e10", "effective_e10",
         "submitted_b7s", "effective_b7s",
         "submitted_b7p", "effective_b7p",
+        "submitted_b10", "effective_b10",
+        "submitted_hvo", "effective_hvo",
     ]
     for col in ts_cols:
         if col in df.columns:
@@ -166,7 +168,10 @@ def clean_api_records(merged_records):
     df["snapshot_at"] = snapshot_time
 
     # Drop rows with no prices at all
-    price_cols = [c for c in ["price_e5", "price_e10", "price_b7s", "price_b7p"] if c in df.columns]
+    price_cols = [c for c in ["price_e5", "price_e10", "price_b7s", "price_b7p",
+                               "price_b10", "price_hvo"
+                               ] 
+                               if c in df.columns]
     df = df.dropna(subset=price_cols, how="all")
 
     return df

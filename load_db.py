@@ -46,7 +46,13 @@ CREATE TABLE IF NOT EXISTS price_snapshots (
     effective_b7s   TIMESTAMPTZ,
     price_b7p       NUMERIC(6,1),
     submitted_b7p   TIMESTAMPTZ,
-    effective_b7p   TIMESTAMPTZ
+    effective_b7p   TIMESTAMPTZ,
+    price_b10       NUMERIC(6,1),
+    submitted_b10   TIMESTAMPTZ,
+    effective_b10   TIMESTAMPTZ,
+    price_hvo       NUMERIC(6,1),
+    submitted_hvo   TIMESTAMPTZ,
+    effective_hvo   TIMESTAMPTZ
 );
 """
 
@@ -64,6 +70,8 @@ PRICE_COLS = [
     "price_e10", "submitted_e10", "effective_e10",
     "price_b7s", "submitted_b7s", "effective_b7s",
     "price_b7p", "submitted_b7p", "effective_b7p",
+    "price_b10", "submitted_b10", "effective_b10",
+    "price_hvo", "submitted_hvo", "effective_hvo",
 ]
 
 
