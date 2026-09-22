@@ -14,6 +14,7 @@ from pathlib import Path
 OUTPUT = Path("context_bundle.md")
 INCLUDE = {".py": "python", ".sql": "sql", ".md": "markdown", ".yml": "yaml",
            ".yaml": "yaml", ".bat": "bat", ".txt": "text", ".toml": "toml"}
+INCLUDE_NAMES = {".gitignore": "gitignore"}
 NEVER_INCLUDE = {".env", ".token_cache.json", OUTPUT.name}
 
 tracked = subprocess.run(
@@ -23,7 +24,7 @@ tracked = subprocess.run(
 sections = []
 for name in sorted(tracked):
     path = Path(name)
-    lang = INCLUDE.get(path.suffix.lower())
+    lang = INCLUDE.get(path.suffix.lower()) or INCLUDE_NAMES.get(path.name)
     if lang is None or path.name in NEVER_INCLUDE:
         continue
     content = path.read_text(encoding="utf-8", errors="replace")
